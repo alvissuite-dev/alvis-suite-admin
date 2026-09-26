@@ -16,7 +16,7 @@ const STATUSES: { value: string; label: string }[] = [
   { value: 'cancelled', label: 'Cancelled'    },
 ]
 
-export default function BookingsPage() {
+function BookingsContent() {
   const searchParams = useSearchParams()
   const [bookings,      setBookings]      = useState<Booking[]>([])
   const [loading,       setLoading]       = useState(true)
