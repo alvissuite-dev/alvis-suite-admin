@@ -6,6 +6,7 @@ import { getBookings, updateBookingStatus } from '@/services/bookings'
 import { Booking, BookingStatus } from '@/types'
 import { formatPrice, formatDate, getStatusColor, getStatusDot } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
+export const dynamic = 'force-dynamic'
 const supabase = createClient()
 
 const STATUSES: { value: string; label: string }[] = [
