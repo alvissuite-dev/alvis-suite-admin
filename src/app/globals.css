@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter:     'Inter', system-ui, sans-serif;
+    --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #12100e;
+    color: #f0ece7;
+    font-family: var(--font-inter);
+  }
+
+  ::selection {
+    background-color: rgba(201, 168, 76, 0.3);
+    color: #f0ece7;
+  }
+
+  ::-webkit-scrollbar       { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track  { background: #1a1714; }
+  ::-webkit-scrollbar-thumb  { background: #3d3630; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #c9a84c; }
+}
+
+@layer components {
+  .font-display { font-family: var(--font-cormorant); }
+
+  /* Gold divider line */
+  .divider-gold {
+    @apply w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent;
+  }
+
+  /* Luxury card base */
+  .card-luxury {
+    @apply bg-charcoal-800 border border-charcoal-700 rounded-xl
+           shadow-dark hover:border-charcoal-600 transition-all duration-300;
+  }
+
+  /* Gold button */
+  .btn-gold {
+    @apply bg-gold text-charcoal-950 font-semibold px-6 py-3 rounded-lg
+           hover:bg-gold-light active:bg-gold-dark transition-all duration-200
+           shadow-gold-sm hover:shadow-gold;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply border border-charcoal-600 text-charcoal-200 px-6 py-3 rounded-lg
+           hover:border-gold/50 hover:text-gold transition-all duration-200;
+  }
+
+  /* Input field */
+  .input-luxury {
+    @apply w-full bg-charcoal-900 border border-charcoal-600 rounded-lg
+           px-4 py-3 text-charcoal-50 placeholder-charcoal-400
+           focus:outline-none focus:border-gold/60 focus:ring-1 focus:ring-gold/20
+           transition-all duration-200;
+  }
+
+  /* Status badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full
+           text-xs font-medium border;
+  }
+
+  /* Admin sidebar link */
+  .nav-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm
+           text-charcoal-300 hover:text-gold hover:bg-charcoal-700
+           transition-all duration-200 cursor-pointer;
+  }
+  .nav-link.active {
+    @apply text-gold bg-charcoal-700 border-l-2 border-gold;
+  }
+}
+
+@layer utilities {
+  .text-gold-gradient {
+    @apply bg-gradient-to-r from-gold-light via-gold to-gold-dark bg-clip-text text-transparent;
+  }
+  .bg-glass {
+    @apply bg-white/5 backdrop-blur-sm;
+  }
+}
+
+/* React Day Picker overrides for dark luxury theme */
+.rdp {
+  --rdp-cell-size: 36px;
+  --rdp-accent-color: #c9a84c;
+  --rdp-background-color: rgba(201,168,76,0.1);
+  --rdp-accent-color-dark: #9a7a2e;
+  --rdp-background-color-dark: rgba(201,168,76,0.2);
+  --rdp-outline: 2px solid rgba(201,168,76,0.5);
+  --rdp-outline-selected: 2px solid #c9a84c;
+  margin: 0;
+  color: #f0ece7;
+}
+.rdp-months { justify-content: center; }
+.rdp-caption_label { color: #c9a84c; font-family: var(--font-cormorant); font-size: 1.1rem; font-weight: 500; }
+.rdp-nav_button { color: #a09589; }
+.rdp-nav_button:hover { color: #c9a84c; background: rgba(201,168,76,0.1); }
+.rdp-head_cell { color: #7a6f65; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; }
+.rdp-day { color: #c8bfb5; border-radius: 6px; }
+.rdp-day:hover:not(.rdp-day_disabled):not(.rdp-day_selected) { background: rgba(201,168,76,0.15); color: #c9a84c; }
+.rdp-day_selected { background: #c9a84c !important; color: #0a0908 !important; font-weight: 600; }
+.rdp-day_today:not(.rdp-day_selected) { color: #c9a84c; font-weight: 600; }
+.rdp-day_disabled { color: #3d3630; opacity: 0.4; }
+.rdp-day_range_middle { background: rgba(201,168,76,0.15) !important; color: #e2c87a !important; border-radius: 0; }
+.rdp-day_range_start, .rdp-day_range_end { background: #c9a84c !important; color: #0a0908 !important; }
