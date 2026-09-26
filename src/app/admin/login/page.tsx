@@ -1,19 +1,17 @@
 'use client'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react'
 import { signIn } from '@/services/auth'
 
-export const dynamic = 'force-dynamic'
-
-export default function AdminLoginPage() {
+function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [email,    setEmail]    = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showPw,   setShowPw]   = useState(false)
-  const [loading,  setLoading]  = useState(false)
-  const [error,    setError]    = useState('')
+  const [showPw, setShowPw] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,6 +29,63 @@ export default function AdminLoginPage() {
     }
   }
 
+  return (
+    <form onSubmit={handleLogin} className="space-y-4">
+      <div>
+        <label className="text-xs text-charcoal-400 mb-1.5 flex items-center gap-1.5">
+          <Mail size={11} /> Email
+        </label>
+        <input
+          type="email"
+          required
+          className="input-luxury"
+          placeholder="admin@alvissuite.com"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label className="text-xs text-charcoal-400 mb-1.5 flex items-center gap-1.5">
+          <Lock size={11} /> Password
+        </label>
+        <div className="relative">
+          <input
+            type={showPw ? 'text' : 'password'}
+            required
+            className="input-luxury pr-10"
+            placeholder="••••••••"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPw(!showPw)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-500 hover:text-charcoal-300"
+          >
+            {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
+      </div>
+
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 text-red-400 text-sm">
+          {error}
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="btn-gold w-full flex items-center justify-center gap-2 mt-2"
+      >
+        {loading ? <><Loader2 size={16} className="animate-spin" /> Signing in...</> : 'Sign in'}
+      </button>
+    </form>
+  )
+}
+
+export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-charcoal-950 flex">
       {/* Left — branding */}
@@ -70,58 +125,9 @@ export default function AdminLoginPage() {
             <p className="text-charcoal-500 text-sm">Access the Alvis Suite host dashboard</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="text-xs text-charcoal-400 mb-1.5 flex items-center gap-1.5">
-                <Mail size={11} /> Email
-              </label>
-              <input
-                type="email"
-                required
-                className="input-luxury"
-                placeholder="admin@alvissuite.com"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="text-xs text-charcoal-400 mb-1.5 flex items-center gap-1.5">
-                <Lock size={11} /> Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPw ? 'text' : 'password'}
-                  required
-                  className="input-luxury pr-10"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPw(!showPw)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-500 hover:text-charcoal-300"
-                >
-                  {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
-            </div>
-
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 text-red-400 text-sm">
-                {error}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-gold w-full flex items-center justify-center gap-2 mt-2"
-            >
-              {loading ? <><Loader2 size={16} className="animate-spin" /> Signing in...</> : 'Sign in'}
-            </button>
-          </form>
+          <Suspense fallback={<div className="text-charcoal-400 text-sm">Loading...</div>}>
+            <LoginForm />
+          </Suspense>
 
           <div className="mt-8 text-center">
             <a href="/" className="text-xs text-charcoal-600 hover:text-charcoal-400 transition-colors">
