@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Search, Filter, ChevronDown, CheckCircle, XCircle, Clock, Eye, X, Loader2, Download } from 'lucide-react'
 import { getBookings, updateBookingStatus } from '@/services/bookings'
@@ -600,5 +600,13 @@ function DetailRow({ label, value, highlight }: { label: string; value: string; 
       <span className="text-charcoal-500">{label}</span>
       <span className={highlight ? 'text-gold font-semibold' : 'text-charcoal-200'}>{value}</span>
     </div>
+  )
+}
+
+export default function BookingsPage() {
+  return (
+    <Suspense fallback={<div className="p-12 text-center text-charcoal-400 text-sm"><Loader2 size={20} className="animate-spin inline mr-2" /> Loading bookings...</div>}>
+      <BookingsContent />
+    </Suspense>
   )
 }
